@@ -14,4 +14,4 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(MetricRecord)
 class MetricRecordAdmin(admin.ModelAdmin):
-    list_display = ['metric_id', 'updated_at', 'created_at']
+    list_display = ['data', 'metric', 'updated_at', 'created_at']

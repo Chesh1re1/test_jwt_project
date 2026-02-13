@@ -10,6 +10,9 @@ class Metric(models.Model):
         verbose_name = 'Метрика'
         verbose_name_plural = 'Метрики'
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(
@@ -21,15 +24,18 @@ class Tag(models.Model):
         verbose_name = 'Тэг'
         verbose_name_plural = 'Тэги'
 
+    def __str__(self):
+        return self.name
+
 
 class MetricRecord(models.Model):
-    metric_id = models.ForeignKey(
+    metric = models.ForeignKey(
         Metric,
         on_delete=models.SET_NULL,
         null=True,
         verbose_name='Метрика'
     )
-    tag_id = models.ForeignKey(
+    tag = models.ForeignKey(
         Tag,
         on_delete=models.SET_NULL,
         null=True,
