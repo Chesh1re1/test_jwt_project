@@ -13,10 +13,10 @@ class MetricViewSet(viewsets.ModelViewSet):
     serializer_class = MetricSerializer
     permission_classes = [IsAuthenticated]
 
-    @action(detail=True, methods=['get', 'post'], url_path='records')
     def get_cache_key(self, metric_id, user_id):
         return f'metric_records_{metric_id}_user_{user_id}'
 
+    @action(detail=True, methods=['get', 'post'], url_path='records')
     def handle_records(self, request, pk=None):
         metric = self.get_object()
         if request.method == 'GET':

@@ -12,4 +12,4 @@ if password and not User.objects.filter(username=username).exists():
     User.objects.create_superuser(username, email, password)
     print(f'✅ Superuser {username} created')
 EOF
-exec python manage.py runserver 0.0.0.0:8000
+exec "$@"

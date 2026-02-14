@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from celery.schedules import crontab
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -98,6 +100,16 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': f"redis://{config('REDIS_HOST', 'redis')}:{config('REDIS_PORT', '6379')}/0",
     }
+}
+
+CELERY_BROKER_URL = f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}/0"
+CELERY_RESULT_BACKEND = f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}/0"
+
+CELERY_BEAT_SCHEDULE = {
+    'create_report_2_min': {
+        'task': 'jwt_app.tasks.test_task',
+        'schedule': timedelta(seconds=2)
+    },
 }
 
 
