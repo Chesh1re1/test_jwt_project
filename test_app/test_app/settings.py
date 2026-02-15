@@ -9,11 +9,10 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
-from celery.schedules import crontab
-from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,8 +106,8 @@ CELERY_RESULT_BACKEND = f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}/
 
 CELERY_BEAT_SCHEDULE = {
     'create_report_2_min': {
-        'task': 'jwt_app.tasks.test_task',
-        'schedule': timedelta(seconds=2)
+        'task': 'jwt_app.tasks.create_report',
+        'schedule': timedelta(minutes=2),
     },
 }
 
@@ -148,6 +147,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+REPORTS_DIR = os.path.join(BASE_DIR, 'reports')
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
